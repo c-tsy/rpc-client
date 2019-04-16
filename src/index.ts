@@ -37,10 +37,23 @@ export default abstract class Client extends EventEmitter {
      * 本地地址
      */
     protected Addr: string = "";
+    private logined: boolean = false;
     /**
      * 是否登录
      */
-    protected _logined: boolean = false;
+    protected get _logined() {
+        return this.logined;
+    }
+    protected set _logined(v: boolean) {
+        this.logined = v;
+        if (v) {
+            if (this._waiting.length > 0) {
+                this._waiting.forEach((v) => {
+                    this.send(v);
+                })
+            }
+        }
+    }
     /**
      * 请求编号
      */
@@ -96,7 +109,7 @@ export default abstract class Client extends EventEmitter {
         if (this['hand' + RPCType[rpc.Type]] instanceof Function) {
             try {
                 let r = await this['hand' + RPCType[rpc.Type]](rpc, sock);
-                if (r != undefined) {
+                if (r != undefined && rpc.NeedReply) {
                     this.send(r);
                 }
             } catch (error) {
@@ -207,9 +220,6 @@ export default abstract class Client extends EventEmitter {
         // throw new Error(ClientError.NotSupport)
         this._logined = true;
         this.emit(ClientEvent.LOGINED, this.Addr);
-        this._waiting.forEach((v) => {
-            this.send(v);
-        })
     }
     async handPub(rpc: RPC, sock) {
         this.emit('_sub' + rpc.Path, { data: rpc.Data, rpc: rpc })
@@ -321,6 +331,16 @@ export default abstract class Client extends EventEmitter {
                 s(true);
             }
         })
+    }
+    onconnected() {
+        this._logined = false;
+        this.login();
+    }
+    async login() {
+        let rpc = new RPC()
+        rpc.Type = RPCType.Login;
+        rpc.From = this.Addr;
+        this.send(rpc)
     }
     /**
      * 获取请求ID
