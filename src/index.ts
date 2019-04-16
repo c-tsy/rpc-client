@@ -290,13 +290,13 @@ export default abstract class Client extends EventEmitter {
      * @param data 
      * @param opts 
      */
-    request(path: string, data: any, opts: { Timeout?: number, NeedReply?: boolean }): Promise<any> {
+    request(path: string, data: any, opts: { Timeout?: number, NeedReply?: boolean, Type?: RPCType }): Promise<any> {
         return new Promise((s, j) => {
             let rpc = new RPC;
             rpc.ID = this.ID;
             rpc.Path = path;
             rpc.Data = data;
-            rpc.Type = RPCType.Request;
+            rpc.Type = opts.Type || RPCType.Request;
             rpc.NeedReply = opts.NeedReply || true;
             if (opts.Timeout) {
                 setTimeout(() => {
