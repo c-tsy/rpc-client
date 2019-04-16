@@ -219,7 +219,7 @@ export default abstract class Client extends EventEmitter {
     async handLogin(rpc: RPC, sock) {
         // throw new Error(ClientError.NotSupport)
         this._logined = true;
-        this.emit(ClientEvent.LOGINED, this.Addr);
+        // this.emit(ClientEvent.LOGINED, this.Addr);
     }
     async handPub(rpc: RPC, sock) {
         this.emit('_sub' + rpc.Path, { data: rpc.Data, rpc: rpc })
@@ -267,11 +267,11 @@ export default abstract class Client extends EventEmitter {
      * @param topic 
      * @param cb 
      */
-    async subscribe(topic: string, cb: (data: any, rpc: RPC) => any) {
+    async subscribe(topic: string | string[], cb: (data: any, rpc: RPC) => any) {
         this.on('_sub' + topic, cb)
         let rpc = new RPC;
         rpc.ID = this.ID;
-        rpc.Path = topic;
+        rpc.Data = topic;
         rpc.Type = RPCType.Sub;
         rpc.NeedReply = true;
         this.send(rpc);
