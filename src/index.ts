@@ -300,7 +300,8 @@ export default abstract class Client extends EventEmitter {
      * @param data 
      * @param opts 
      */
-    request(path: string, data: any, opts: { Timeout?: number, NeedReply?: boolean, Type?: RPCType }): Promise<any> {
+    request(path: string, data: any, opts?: { Timeout?: number, NeedReply?: boolean, Type?: RPCType }): Promise<any> {
+        if (!opts) { opts = {} }
         return new Promise((s, j) => {
             let rpc = new RPC;
             rpc.ID = this.ID;
@@ -309,12 +310,6 @@ export default abstract class Client extends EventEmitter {
             rpc.Type = opts.Type || RPCType.Request;
             rpc.NeedReply = opts.NeedReply || true;
             if (opts.Timeout) {
-                setTimeout(() => {
-                    rpc.Status = false;
-                    rpc.Data = ClientError.Timeout;
-                    this.promise(rpc)
-                }, opts.Timeout * 1000)
-
                 let t = opts.Timeout / 60;
                 //默认为毫秒，往上进位
                 while (t > 1) {
@@ -323,9 +318,14 @@ export default abstract class Client extends EventEmitter {
                     t /= 60;
                 }
                 rpc.Timeout = opts.Timeout;
+                setTimeout(() => {
+                    rpc.Status = false;
+                    rpc.Data = ClientError.Timeout;
+                    this.promise(rpc)
+                }, opts.Timeout * 1000)
             }
             this.send(rpc);
-            if (opts.NeedReply) {
+            if (rpc.NeedReply) {
                 this._idPromise[rpc.ID] = { s, j };
             } else {
                 s(true);
