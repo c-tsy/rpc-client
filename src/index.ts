@@ -141,7 +141,6 @@ export default abstract class Client extends EventEmitter {
                 rpc.Status = false;
             }
         }
-        rpc.Data = false;
         return rpc;
     }
     /**
