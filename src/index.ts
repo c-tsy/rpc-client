@@ -52,6 +52,17 @@ export default abstract class Client extends EventEmitter {
                     this.send(v);
                 })
             }
+            let events: any = this.eventNames();
+            for (let i = 0; i < events.length; i++) {
+                if (events[i].startsWith('_sub')) {
+                    let rpc = new RPC;
+                    rpc.ID = this.ID;
+                    rpc.Data = events[i].substr(4);
+                    rpc.Type = RPCType.Sub;
+                    rpc.NeedReply = true;
+                    this.send(rpc);
+                }
+            }
         }
     }
     /**
@@ -268,12 +279,14 @@ export default abstract class Client extends EventEmitter {
      */
     async subscribe(topic: string | string[], cb: (data: any, rpc: RPC) => any) {
         this.on('_sub' + topic, cb)
-        let rpc = new RPC;
-        rpc.ID = this.ID;
-        rpc.Data = topic;
-        rpc.Type = RPCType.Sub;
-        rpc.NeedReply = true;
-        this.send(rpc);
+        if (this.logined) {
+            let rpc = new RPC;
+            rpc.ID = this.ID;
+            rpc.Data = topic;
+            rpc.Type = RPCType.Sub;
+            rpc.NeedReply = true;
+            this.send(rpc);
+        }
         return true;
     }
     /**
