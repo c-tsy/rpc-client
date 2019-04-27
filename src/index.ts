@@ -152,6 +152,7 @@ export default abstract class Client extends EventEmitter {
                 rpc.Status = false;
             }
         }
+        rpc.Type = RPCType.Response;
         return rpc;
     }
     /**
