@@ -65,7 +65,7 @@ export default abstract class Client extends EventEmitter {
     /**
      * 已注册方法
      */
-    protected _registed: { [index: string]: Function };
+    protected _registed: { [index: string]: Function } = {};
 
     /**
      * RPC待发送列表
