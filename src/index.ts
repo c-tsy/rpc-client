@@ -1,7 +1,7 @@
 import { RPC, RPCType, checkTopic } from '@ctsy/rpc';
-import { Buffer } from 'buffer'
 import { EventEmitter } from 'eventemitter3';
 import * as debug from 'debug'
+const Buffer = require('buffer').Buffer
 const dlog = debug('RPCClient')
 
 export enum ClientEvent {

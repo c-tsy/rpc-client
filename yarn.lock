@@ -2,12 +2,17 @@
 # yarn lockfile v1
 
 
-"@ctsy/rpc@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@ctsy/rpc/-/rpc-1.0.3.tgz#3c365ba098544a9ce7d2c72a6915ebc2c4477ace"
-  integrity sha512-YFoorNPYcIN1VSs2oNqAkinJH/xGdHYT3Lmh0gPIuilhX06bsfhuUUsOp7374rcocLGs6/MnH04kQRQOQqRlgg==
+"@ctsy/rpc@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@ctsy/rpc/-/rpc-1.0.8.tgz#022f245b7af342bcb87c49317f23e735e115a850"
+  integrity sha512-sIVy7SRy1AttizLDCGRIbEYsHfs+wbMWy10hDxAC3qPh/xm+RYMFDaAV3Yku1Hg1dgZoOA9R8uNs4xRpeiGnxg==
   dependencies:
     buffer "^5.2.1"
+
+"@types/node@^11.13.8":
+  version "11.13.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.8.tgz#e5d71173c95533be9842b2c798978f095f912aab"
+  integrity sha512-szA3x/3miL90ZJxUCzx9haNbK5/zmPieGraZEe4WI+3srN0eGLiT22NXeMHmyhNEopn+IrxqMc7wdVwvPl8meg==
 
 base64-js@^1.0.2:
   version "1.3.0"
