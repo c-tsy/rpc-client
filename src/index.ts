@@ -47,6 +47,7 @@ export default abstract class Client extends EventEmitter {
     protected set _logined(v: boolean) {
         this.logined = v;
         if (v) {
+            this.emit(ClientEvent.LOGINED,this)
             if (this._waiting.length > 0) {
                 this._waiting.forEach((v) => {
                     this.send(v);
