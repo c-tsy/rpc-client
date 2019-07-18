@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ctsy/rpc@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@ctsy/rpc/-/rpc-1.0.8.tgz#022f245b7af342bcb87c49317f23e735e115a850"
-  integrity sha512-sIVy7SRy1AttizLDCGRIbEYsHfs+wbMWy10hDxAC3qPh/xm+RYMFDaAV3Yku1Hg1dgZoOA9R8uNs4xRpeiGnxg==
+"@ctsy/rpc@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@ctsy/rpc/-/rpc-1.0.11.tgz#4959872cd36951eb121dcf99436af0abd9b35fd7"
+  integrity sha512-Wzw8YvXw8/wIPobNNaaLuT4hZe42LBksRgTEow85qfSsJBbBf055LeTQPL0HSt8gPsffkl1EfXoxvLh/eJCmrg==
   dependencies:
     buffer "^5.2.1"
 
