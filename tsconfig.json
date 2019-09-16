@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "es5",
+        "target": "esnext",
         "sourceMap": true,
         "outDir": "dist",
         "declaration": true,
         "experimentalDecorators": true,
-        "removeComments": true,
+        "removeComments": false,
         "preserveConstEnums": true,
         "lib": [
             "es2015",

@@ -1,8 +1,5 @@
 import { RPC, RPCType, checkTopic } from '@ctsy/rpc';
 import { EventEmitter } from 'eventemitter3';
-import * as debug from 'debug'
-const Buffer = require('buffer').Buffer
-const dlog = debug('RPCClient')
 
 export enum ClientEvent {
     LOGINED = 'LOGINED',
@@ -47,7 +44,7 @@ export default abstract class Client extends EventEmitter {
     protected set _logined(v: boolean) {
         this.logined = v;
         if (v) {
-            this.emit(ClientEvent.LOGINED,this)
+            this.emit(ClientEvent.LOGINED, this)
             if (this._waiting.length > 0) {
                 this._waiting.forEach((v) => {
                     this.send(v);
@@ -128,7 +125,7 @@ export default abstract class Client extends EventEmitter {
 
             }
         } else {
-            dlog(ClientEvent.UNKNOW_TYPE + ': %s', rpc.Type)
+            // dlog(ClientEvent.UNKNOW_TYPE + ': %s', rpc.Type)
             this.emit(ClientEvent.UNKNOW_TYPE, { rpc, sock });
         }
     }
@@ -357,6 +354,23 @@ export default abstract class Client extends EventEmitter {
         this.send(rpc)
     }
     /**
+     * 注册服务
+     * @param ServiceName 
+     * @param cb 
+     */
+    async regist(ServiceName: string, cb: (data: any) => Promise<any>) {
+        this._registed[ServiceName] = cb;
+        return await this.request(ServiceName, true, { Type: RPCType.Regist, NeedReply: true })
+    }
+    /**
+     * 反向注册服务
+     * @param ServiceName 
+     */
+    async unregist(ServiceName: string) {
+        delete this._registed[ServiceName]
+        return true;
+    }
+    /**
      * 获取请求ID
      */
     protected get ID() {
@@ -367,10 +381,7 @@ export default abstract class Client extends EventEmitter {
 declare let window: any
 try {
     if (window) {
-        if (!window['ctsy']) {
-            window['ctsy'] = {}
-        }
-        window['ctsy']['RPCClient'] = Client;
+        window['RPCClient'] = Client;
     }
 } catch (error) {
 
